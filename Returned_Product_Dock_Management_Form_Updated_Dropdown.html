@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returned Product & Dock Management Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 10px;
+            max-width: 500px;
+            margin: auto;
+            background-color: #f8f8f8;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Returned Product & Dock Management Form</h2>
+
+    <form id="dockForm">
+        <label for="date_arrival">Today's Date:</label>
+        <input type="date" id="date_arrival" name="date_arrival" required>
+
+        <label for="dock_number">Dock Number:</label>
+        <select id="dock_number" name="dock_number" required>
+            <option value="">Select Dock</option>
+            <option value="2">Dock 2</option><option value="3">Dock 3</option><option value="4">Dock 4</option><option value="5">Dock 5</option><option value="6">Dock 6</option><option value="7">Dock 7</option><option value="8">Dock 8</option><option value="9">Dock 9</option><option value="10">Dock 10</option><option value="11">Dock 11</option><option value="12">Dock 12</option><option value="13">Dock 13</option><option value="14">Dock 14</option><option value="15">Dock 15</option><option value="16">Dock 16</option><option value="17">Dock 17</option><option value="18">Dock 18</option><option value="19">Dock 19</option><option value="20">Dock 20</option><option value="21">Dock 21</option><option value="22">Dock 22</option><option value="23">Dock 23</option><option value="24">Dock 24</option><option value="25">Dock 25</option><option value="26">Dock 26</option><option value="27">Dock 27</option><option value="28">Dock 28</option><option value="29">Dock 29</option><option value="30">Dock 30</option><option value="31">Dock 31</option>
+        </select>
+
+        <label for="route_number">Driver Route Number:</label>
+        <select id="route_number" name="route_number" required>
+            <option value="">Select Route</option>
+            <option value="GA01">GA01</option><option value="GA02">GA02</option><option value="GA03">GA03</option><option value="GA04">GA04</option><option value="GA05">GA05</option><option value="GA06">GA06</option><option value="GA07">GA07</option><option value="GA08">GA08</option><option value="GA09">GA09</option><option value="GA10">GA10</option><option value="GA11">GA11</option><option value="GA12">GA12</option><option value="GA13">GA13</option><option value="GA14">GA14</option><option value="GA15">GA15</option><option value="GA16">GA16</option><option value="GA17">GA17</option><option value="GA18">GA18</option>
+        </select>
+
+        <label for="trailer_status">Please select:</label>
+        <select id="trailer_status" name="trailer_status" required>
+            <option value="">Select an option</option>
+            <option value="Return">Return</option>
+            <option value="Backhaul">Backhaul</option>
+        </select>
+
+        <label for="case_qty">Case Qty:</label>
+        <input type="number" id="case_qty" name="case_qty" min="0" inputmode="numeric" pattern="[0-9]*">
+
+        <label for="pallet_qty">Pallet Qty:</label>
+        <input type="number" id="pallet_qty" name="pallet_qty" min="0" inputmode="numeric" pattern="[0-9]*">
+
+        <label for="upload_product">Take Photo of Product:</label>
+        <input type="file" id="upload_product" name="upload_product" accept="image/*">
+
+        <label for="customer_name">Customer Name:</label>
+        <input type="text" id="customer_name" name="customer_name">
+
+        <label for="reason">Reason for Return:</label>
+        <select id="reason" name="reason" required>
+            <option value="N/A">N/A</option>
+            <option value="Damaged">Damaged</option>
+            <option value="Expired">Expired</option>
+            <option value="Wrong Item">Wrong Item</option>
+            <option value="Over">Over</option>
+            <option value="Customer Refusal">Customer Refusal</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="condition">Describe the Condition of Returned Products:</label>
+        <textarea id="condition" name="condition" rows="3"></textarea>
+
+        <label for="rga_issued">Was an RGA Issued?</label>
+        <select id="rga_issued" name="rga_issued" required>
+            <option value="N/A">N/A</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+
+        <label for="upload_rga">Take Photo of RGA Document:</label>
+        <input type="file" id="upload_rga" name="upload_rga" accept="image/*">
+
+        <label for="notes">Additional Notes:</label>
+        <textarea id="notes" name="notes" rows="3"></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let today = new Date().toISOString().split('T')[0];
+            document.getElementById("date_arrival").value = today;
+        });
+
+        document.getElementById("dockForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(event.target);
+
+            fetch("https://your-server-endpoint.com/send-email", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.body.innerHTML = `
+                        <h2>Thank You!</h2>
+                        <p>Your submission has been received successfully.</p>
+                        <a href="javascript:history.back()">Go Back</a>`;
+                } else {
+                    alert("Submission failed. Please try again later.");
+                }
+            })
+            .catch(error => {
+                alert("Error submitting form. Please check your internet connection.");
+            });
+        });
+    </script>
+
+</body>
+</html>
